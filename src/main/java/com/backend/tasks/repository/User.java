@@ -5,6 +5,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * Implement entity:
@@ -12,20 +13,24 @@ import javax.persistence.*;
  * 2. Add equals and hashCode methods
  */
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true,updatable = false)
     private String username;
+
     private String password;
 
     /**
      * Map user with organization by org_id field.
      * Use ManyToOne association.
      */
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name="organization_id",nullable = false)
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "organization_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Organization organization;
@@ -61,5 +66,18 @@ public class User {
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(getUsername());
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(getUsername(),user.getUsername());
     }
 }

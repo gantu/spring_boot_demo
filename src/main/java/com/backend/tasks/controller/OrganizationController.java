@@ -46,7 +46,8 @@ public class OrganizationController {
     }
 
     @PutMapping("/orgs/{orgId}")
-    public Organization updateOrganization(@PathVariable(value="orgId") Long orgId, @Valid @RequestBody Organization organization){
+    public Organization updateOrganization(@PathVariable(value="orgId") Long orgId,
+                                           @Valid @RequestBody Organization organization){
         Organization org = service.getOrganizationById(orgId);
         org.setUsers(organization.getUsers());
         org.setName(organization.getName());

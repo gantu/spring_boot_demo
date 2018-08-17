@@ -56,8 +56,4 @@ public class UserController {
         u.setPassword(user.getPassword());
         return service.saveUserIntoOrganization(orgId, u);
     }
-
-
-
-
 }

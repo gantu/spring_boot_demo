@@ -46,69 +46,62 @@ public class UserServiceImplTest {
     private OrganizationRepository organizationRepository;
 
     @Before
-    public void setup(){
+    public void setup() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void whenValidOrgIDisGiven_shouldReturnAllUsersOfOrganization(){
+    public void whenValidOrgIDisGiven_shouldReturnAllUsersOfOrganization() {
 
-        Long orgId=1L;
-        Organization organization=new Organization();
+        Long orgId = 1L;
+        Organization organization = new Organization();
         organization.setId(orgId);
         organization.setName("Org1");
-      //  when(organizationRepository.findById(orgId)).thenReturn(Optional.of(organization));
+        //  when(organizationRepository.findById(orgId)).thenReturn(Optional.of(organization));
 
-        User user1=  new User();
+        User user1 = new User();
         user1.setId(1L);
         user1.setUsername("user1");
         user1.setPassword("qwerty");
         user1.setOrganization(organization);
 
-        User user2=  new User();
+        User user2 = new User();
         user2.setId(2L);
         user2.setUsername("user1");
         user2.setPassword("qwerty");
         user2.setOrganization(organization);
 
-        List<User> userList= Arrays.asList(user1,user2);
+        List<User> userList = Arrays.asList(user1, user2);
         when(userRepository.findByOrganizationId(orgId)).thenReturn(userList);
 
         List<User> found = userService.getAllUsersOfOrganization(orgId);
-        Assert.assertEquals(userList.size(),found.size());
-        Assert.assertEquals(found.get(0).getUsername(),user1.getUsername());
-
-
-
+        Assert.assertEquals(userList.size(), found.size());
+        Assert.assertEquals(found.get(0).getUsername(), user1.getUsername());
     }
 
     @Test
-    public void whenValidOrgIdAndUserIdGiven_shouldReturnSpecificUser(){
-        Long orgId=1L;
-        Organization organization=new Organization();
+    public void whenValidOrgIdAndUserIdGiven_shouldReturnSpecificUser() {
+        Long orgId = 1L;
+        Organization organization = new Organization();
         organization.setId(orgId);
         organization.setName("Org1");
 
-        User user1=  new User();
+        User user1 = new User();
         user1.setId(1L);
         user1.setUsername("user1");
         user1.setPassword("qwerty");
         user1.setOrganization(organization);
 
-        User user2=  new User();
+        User user2 = new User();
         user2.setId(2L);
         user2.setUsername("user1");
         user2.setPassword("qwerty");
         user2.setOrganization(organization);
 
+        when(userRepository.findByOrganizationIdAndId(orgId, user1.getId())).thenReturn(user1);
 
-        when(organizationRepository.findById(orgId)).thenReturn(Optional.of(organization));
-        when(userRepository.findById(user1.getId())).thenReturn(Optional.of(user1));
-
-        User found = userService.getUserOfOrganization(orgId,user1.getId());
-        Assert.assertEquals(user1.getUsername(),found.getUsername());
+        User found = userService.getUserOfOrganization(orgId, user1.getId());
+        Assert.assertEquals(user1.getUsername(), found.getUsername());
 
     }
-
-
 }

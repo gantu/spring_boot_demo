@@ -1,6 +1,7 @@
 package com.backend.tasks.repository;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -42,7 +43,6 @@ public class Organization {
         this.name = name;
     }
 
-
     public Set<User> getUsers() {
         return users;
     }
@@ -50,4 +50,10 @@ public class Organization {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(getId());
+    }
+
 }
