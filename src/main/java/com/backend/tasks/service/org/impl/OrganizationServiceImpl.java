@@ -12,32 +12,32 @@ import java.util.List;
 public class OrganizationServiceImpl implements OrganizationService {
 
     @Autowired
-    private OrganizationRepository repository;
+    private OrganizationRepository organizationRepository;
 
     @Override
     public List<Organization> getAllOrganization() {
-        return repository.findAll();
+        return organizationRepository.findAll();
     }
 
     @Override
     public Organization getOrganizationById(Long id) {
-        return repository.findById(id).get();
+        return organizationRepository.findById(id).get();
     }
 
     @Override
     public Organization saveOrganization(Organization organization) {
-        return repository.save(organization);
+        return organizationRepository.save(organization);
     }
 
 
     @Override
     public void deleteOrganization(Long id) {
-        repository.deleteById(id);
+        organizationRepository.deleteById(id);
     }
 
     @Override
     public Boolean organizationExists(Long id){
-        return repository.existsById(id);
+        return organizationRepository.existsById(id);
     }
 
 }

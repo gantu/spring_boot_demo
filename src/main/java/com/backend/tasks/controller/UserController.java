@@ -24,33 +24,40 @@ public class UserController {
     private UserService service;
 
     @GetMapping("/orgs/{orgId}/users")
-    public List<User> getAllUsersOfOrganization(@PathVariable(value="orgId") Long orgId){
+    public List<User> getAllUsersOfOrganization(@PathVariable(value = "orgId") Long orgId) {
         return service.getAllUsersOfOrganization(orgId);
     }
 
-    @PostMapping("/orgs/{orgId}/users")
-    public User createOrganization(@PathVariable(value = "orgId") Long orgId,@Valid @RequestBody User user){
-        return service.saveUserIntoOrganization(orgId,user);
+    @GetMapping("/orgs/{orgId}/users/{userId}")
+    public User getUserOfOrganization(@PathVariable(value = "orgId") Long orgId,
+                                      @PathVariable(value = "userId") Long userId) {
+        return service.getUserOfOrganization(orgId, userId);
     }
 
-    @GetMapping("/orgs/{orgId}/users/{userId}")
-    public User getUserOfOrganization(@PathVariable(value="orgId") Long orgId,@PathVariable(value = "userId") Long userId){
-        return service.getUserOfOrganization(orgId,userId);
+    @PostMapping("/orgs/{orgId}/users")
+    public User createOrganization(@PathVariable(value = "orgId") Long orgId,
+                                   @Valid @RequestBody User user) {
+        return service.saveUserIntoOrganization(orgId, user);
     }
 
     @DeleteMapping("/orgs/{orgId}/users/{userId}")
-    public ResponseEntity<?> deleteUserOnOrganization(@PathVariable(value = "orgId") Long orgId,@PathVariable(value = "userId") Long userId){
-        service.deleteUserOnOrganization(orgId,userId);
+    public ResponseEntity<?> deleteUserOnOrganization(@PathVariable(value = "orgId") Long orgId,
+                                                      @PathVariable(value = "userId") Long userId) {
+        service.deleteUserOnOrganization(orgId, userId);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/orgs/{orgId}/users/{userId}")
-    public User saveUserOfOrganization(@PathVariable(value = "orgId") Long orgId,@PathVariable(value = "userId") Long userId,@Valid @RequestBody User user){
-        User u = service.getUserOfOrganization(orgId,userId);
+    public User saveUserOfOrganization(@PathVariable(value = "orgId") Long orgId,
+                                       @PathVariable(value = "userId") Long userId,
+                                       @Valid @RequestBody User user) {
+        User u = service.getUserOfOrganization(orgId, userId);
         u.setUsername(user.getUsername());
         u.setPassword(user.getPassword());
-        return service.saveUserIntoOrganization(orgId,u);
+        return service.saveUserIntoOrganization(orgId, u);
     }
+
+
 
 
 }
