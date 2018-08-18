@@ -1,16 +1,12 @@
 package com.backend.tasks.controller;
 
 import com.backend.tasks.repository.Organization;
-import com.backend.tasks.repository.OrganizationRepository;
 import com.backend.tasks.service.org.OrganizationService;
-import com.backend.tasks.service.org.impl.OrganizationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -41,8 +37,10 @@ public class OrganizationController {
     }
 
     @PostMapping("/orgs")
-    public Organization createOrganization(@Valid @RequestBody Organization organization){
-        return service.saveOrganization(organization);
+    ResponseEntity<?> createOrganization(@Valid @RequestBody Organization organization){
+        Organization org1 = service.saveOrganization(organization);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        return ResponseEntity.status(201).headers(responseHeaders).body(org1);
     }
 
     @PutMapping("/orgs/{orgId}")

@@ -17,13 +17,18 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import org.springframework.http.MediaType;
 
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 
+import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,6 +54,19 @@ public class OrganizationControllerTest {
     @MockBean
     private OrganizationService service;
 
+    private HttpMessageConverter mappingJackson2HttpMessageConverter;
+
+    @Autowired
+    void setConverters(HttpMessageConverter<?>[] converters) {
+
+        this.mappingJackson2HttpMessageConverter = Arrays.asList(converters).stream()
+                .filter(hmc -> hmc instanceof MappingJackson2HttpMessageConverter)
+                .findAny()
+                .orElse(null);
+
+        assertNotNull("the JSON message converter must not be null",
+                this.mappingJackson2HttpMessageConverter);
+    }
 
     @Test
     public void givenOrganizations_whenGetOrganizations_thenReturnJsonArray()
@@ -83,6 +101,27 @@ public class OrganizationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json("{'id':1,'name':'org1','users':null}"));
 
+    }
+
+    @Test
+    public void createOrganization() throws Exception {
+        Organization organization = new Organization();
+        organization.setName("Org1");
+        organization.setId(1L);
+        String organizationJson = json(organization);
+
+        mvc.perform(post("/orgs")
+                .content(organizationJson)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+    }
+
+
+    protected String json(Object o) throws IOException {
+        MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
+        this.mappingJackson2HttpMessageConverter.write(
+                o, MediaType.APPLICATION_JSON, mockHttpOutputMessage);
+        return mockHttpOutputMessage.getBodyAsString();
     }
 
 
