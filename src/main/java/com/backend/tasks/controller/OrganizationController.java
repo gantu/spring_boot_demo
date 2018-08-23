@@ -58,6 +58,6 @@ public class OrganizationController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 
         service.deleteOrganization(orgId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(204).build();
     }
 }

@@ -5,9 +5,6 @@ import com.backend.tasks.repository.Organization;
 import com.backend.tasks.repository.OrganizationRepository;
 import com.backend.tasks.repository.User;
 import com.backend.tasks.repository.UserRepository;
-import com.backend.tasks.service.org.OrganizationService;
-import com.backend.tasks.service.org.impl.OrganizationServiceImpl;
-import com.backend.tasks.service.user.UserService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,18 +12,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.mockito.Mockito.when;
 
 /**

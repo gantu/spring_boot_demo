@@ -3,27 +3,16 @@ package com.backend.tasks.service.org.impl;
 import com.backend.tasks.Application;
 import com.backend.tasks.repository.Organization;
 import com.backend.tasks.repository.OrganizationRepository;
-import com.backend.tasks.repository.User;
-import com.backend.tasks.service.org.OrganizationService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import java.util.*;
-
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 /**
@@ -38,8 +27,6 @@ public class OrganizationServiceImplTest {
 
     @Mock
     private OrganizationRepository organizationRepository;
-
-
 
     @Before
     public void setup(){

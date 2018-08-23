@@ -2,51 +2,37 @@ package com.backend.tasks.controller;
 
 import com.backend.tasks.Application;
 import com.backend.tasks.repository.Organization;
-
 import com.backend.tasks.service.org.OrganizationService;
-
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import org.springframework.boot.test.mock.mockito.MockBean;
-
 import org.springframework.http.MediaType;
-
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
-
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
-
-
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.hamcrest.Matchers.is;
 /**
  * Implement tests for OrganizationController
  */
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
-@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = Application.class,
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class OrganizationControllerTest {
     @Autowired
     private MockMvc mvc;
@@ -80,7 +66,6 @@ public class OrganizationControllerTest {
 
         given(service.getAllOrganization()).willReturn(allOrganizations);
 
-
         mvc.perform(get("/orgs")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -88,7 +73,8 @@ public class OrganizationControllerTest {
     }
 
     @Test
-    public void givenOrganizations_whenGetOrganization_thenReturnJsonObject() throws Exception {
+    public void givenOrganizations_whenGetOrganization_thenReturnJsonObject()
+            throws Exception {
         Organization org1 = new Organization();
         org1.setName("org1");
         org1.setId(1L);
@@ -104,7 +90,8 @@ public class OrganizationControllerTest {
     }
 
     @Test
-    public void createOrganization() throws Exception {
+    public void givenValidOrganization_shouldCreateOrganization()
+            throws Exception {
         Organization organization = new Organization();
         organization.setName("Org1");
         organization.setId(1L);
@@ -117,13 +104,11 @@ public class OrganizationControllerTest {
     }
 
 
-    protected String json(Object o) throws IOException {
+    protected String json(Object o)
+            throws IOException {
         MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
         this.mappingJackson2HttpMessageConverter.write(
                 o, MediaType.APPLICATION_JSON, mockHttpOutputMessage);
         return mockHttpOutputMessage.getBodyAsString();
     }
-
-
-
 }
